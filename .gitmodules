@@ -1,0 +1,3 @@
+[submodule "OAuth2-Phabricator"]
+	path = OAuth2-Phabricator
+	url = https://github.com/neverendingo/OAuth2-Phabricator.git

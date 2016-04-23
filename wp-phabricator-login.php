@@ -57,6 +57,7 @@ Class WP_phab {
 
     function add_glue_menu_option() {
         add_options_page('Phabricator login', 'Phabricator login', 'read', 'phabricator-login', array($this, 'menu_page'));
+        add_options_page('Phabricator login admin', 'Phabricator login admin', 'activate_plugins', 'phabricator-login-admin', array($this, 'admin_menu_page'));
     }
 
     public function menu_page() {
@@ -70,6 +71,19 @@ Class WP_phab {
                 require __DIR__ . '/html/menu_page_without.php';
             }
         }
+    }
+
+    public function admin_menu_page() {
+        if (filter_input(INPUT_POST, 'phab_cmd') == "update") {
+            update_option( 'wpphab_auto_register', (int)(filter_input(INPUT_POST, 'wpphab_auto_register')!==NULL));
+            update_option( 'wpphab_phabricator_url', filter_input(INPUT_POST, 'wpphab_phabricator_url'));
+            update_option( 'wpphab_api_id', filter_input(INPUT_POST, 'wpphab_api_id'));
+            update_option( 'wpphab_api_secret', filter_input(INPUT_POST, 'wpphab_api_secret'));
+            update_option( 'wpphab_label', filter_input(INPUT_POST, 'wpphab_label'));
+            update_option( 'wpphab_new_user_role', filter_input(INPUT_POST, 'wpphab_new_user_role'));
+            update_option( 'wpphab_delete_settings_on_uninstall',(int)(filter_input(INPUT_POST, 'wpphab_delete_settings_on_uninstall')!==NULL));
+        }
+        require __DIR__ . '/html/admin_menu_page.php';
     }
 
     // do something during plugin activation:
